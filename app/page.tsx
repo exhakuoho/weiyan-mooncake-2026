@@ -18,10 +18,10 @@ const process = [
 ];
 
 const schedule = [
-  ["9/19", "週六", "第一週", ["09:00–12:00", "13:00–16:00"]],
-  ["9/20", "週日", "第一週", ["09:00–12:00", "13:00–16:00"]],
-  ["9/26", "週六", "第二週", ["09:00–12:00", "13:00–16:00"]],
-  ["9/27", "週日", "第二週", ["09:00–12:00", "13:00–16:00"]],
+  ["9/25", "週五", "第 1 天", ["09:00–12:00", "13:00–16:00"]],
+  ["9/26", "週六", "第 2 天", ["09:00–12:00", "13:00–16:00"]],
+  ["9/27", "週日", "第 3 天", ["09:00–12:00", "13:00–16:00"]],
+  ["9/28", "週一", "第 4 天", ["09:00–12:00", "13:00–16:00"]],
 ] as const;
 
 export default function Home() {
@@ -67,7 +67,7 @@ export default function Home() {
       </section>
 
       <section className="quick-facts" aria-label="活動資訊">
-        <article><span className="fact-icon">📅</span><div><small>活動日期（暫定）</small><strong>9/19–20、9/26–27</strong></div></article>
+        <article><span className="fact-icon">📅</span><div><small>活動日期（暫定）</small><strong>9/25–9/28</strong></div></article>
         <article><span className="fact-icon">🕘</span><div><small>每日場次</small><strong>09:00–12:00／13:00–16:00</strong></div></article>
         <article><span className="fact-icon">📍</span><div><small>活動地點</small><strong>高科大建工校區</strong></div></article>
         <article><span className="fact-icon">🎁</span><div><small>完成成果</small><strong>4 顆月餅＋禮盒</strong></div></article>
@@ -106,13 +106,13 @@ export default function Home() {
 
       <section className="section schedule-section" id="schedule">
         <div className="section-heading schedule-heading">
-          <div><span className="section-kicker">兩個週末，共 8 梯</span><h2>挑一個最適合你的中秋手作時光</h2></div>
+          <div><span className="section-kicker">連續四天，共 8 梯</span><h2>挑一個最適合你的中秋手作時光</h2></div>
           <div className="limit-pill"><span>👥</span><div><small>小班操作</small><strong>每梯限額 14 席</strong></div></div>
         </div>
         <div className="schedule-grid">
-          {schedule.map(([date, day, week, times]) => (
+          {schedule.map(([date, day, dayTag, times]) => (
             <article key={date}>
-              <div className="date-heading"><div><strong>{date}</strong><span>{day}</span></div><small>{week}</small></div>
+              <div className="date-heading"><div><strong>{date}</strong><span>{day}</span></div><small>{dayTag}</small></div>
               <div className="time-chips">{times.map((time) => <span key={time}>🕘 {time}</span>)}</div>
               <a href="#register">選這一天 <span>→</span></a>
             </article>

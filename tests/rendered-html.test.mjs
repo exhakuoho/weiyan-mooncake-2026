@@ -25,7 +25,7 @@ test("server-renders the mooncake registration landing page", async () => {
   assert.match(html, /把名字印進中秋/);
   assert.match(html, /送出報名資料/);
   assert.match(html, /每人 NT\$800/);
-  assert.match(html, /9\/19–20、9\/26–27/);
+  assert.match(html, /9\/25–9\/28/);
   assert.match(html, /09:00–12:00／13:00–16:00/);
   assert.match(html, /挑一個最適合你的中秋手作時光/);
   assert.match(html, /hero-mascots-cutout\.webp/);
