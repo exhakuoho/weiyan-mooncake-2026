@@ -22,6 +22,10 @@
 - **這個 repo 放在 Google Drive 裡**（`G:\我的雲端硬碟\05_科學教育\02_夏令營與營隊\115中秋夏令營\`）。
   不要在這個資料夾跑 `npm install`——node_modules 會拖垮 Drive 同步。
   要建置請先複製到本機 SSD 再做，改好的原始碼再抄回來。`desktop.ini` 已加進 `.gitignore`。
+- **沒有「事先」客製**：月餅要壓的名字／圖案是活動當天現場決定，報名表單刻意不收，
+  `app/api/register/route.ts` 的 `customType` 固定送 `現場選擇`。不要因為傳單寫
+  「設計｜畫出自己的名字或圖案」就加客製欄位或上傳功能——那個步驟發生在現場。
+  模具則是活動後可以帶回家（費用已包含）。
 - **活動日期／價格／梯次寫死在程式碼裡**：`app/page.tsx` 的 `schedule`、`process` 陣列，
   以及 `app/api/register/route.ts` 的 `sessionLabels`。改場次要**兩邊一起改**，
   只改前端會讓報名 API 因為 `sessionCode` 對不上而回 400。金額 `quantity * 650` 也在該檔。

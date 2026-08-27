@@ -29,6 +29,8 @@ test("server-renders the mooncake registration landing page", async () => {
   assert.match(html, /每場限 15 組/);
   // 傳單賣點：專屬模具帶回家、可重複使用
   assert.match(html, /專屬 3D 月餅模（可重複使用）/);
+  // 客製是現場決定的，頁面必須講明報名時不用先提供
+  assert.match(html, /報名時要先想好名字或圖案嗎？/);
   assert.doesNotMatch(html, /NT\$800|限額 14 席/);
   assert.match(html, /9\/25–9\/28/);
   assert.match(html, /09:00–12:00／13:00–16:00/);

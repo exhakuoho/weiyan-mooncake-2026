@@ -2,7 +2,7 @@ import Image from "next/image";
 import { RegistrationForm } from "./components/RegistrationForm";
 
 const experienceCards = [
-  { icon: "✏️", title: "設計", text: "畫出自己的名字或圖案，成為月餅上的專屬圖樣。", tone: "blue" },
+  { icon: "✏️", title: "設計", text: "活動現場畫出自己的名字或圖案，成為月餅上的專屬圖樣。", tone: "blue" },
   { icon: "🖨️", title: "列印", text: "用食品級材料 3D 列印出屬於你的專屬月餅模。", tone: "orange" },
   { icon: "🥮", title: "手作", text: "使用 JIMMY39 協力準備的餡料，親手壓出 4 顆造型月餅。", tone: "mint" },
   { icon: "🎁", title: "帶回", text: "月餅禮盒與專屬模具一起帶回家，模具可重複使用。", tone: "purple" },
@@ -78,7 +78,7 @@ export default function Home() {
         <div className="section-heading centered-heading">
           <span className="section-kicker">四個步驟，一份專屬中秋</span>
           <h2>把名字印進月餅，模具還能帶回家</h2>
-          <p>從畫下你的名字或圖案，到 3D 列印出專屬模具、親手壓出月餅——完成的月餅禮盒與模具，全部帶回家。</p>
+          <p>當天現場畫下你的名字或圖案，3D 列印成專屬模具，再親手壓出月餅——完成的月餅禮盒與模具，全部帶回家。</p>
         </div>
         <div className="experience-grid">
           {experienceCards.map((card, index) => (
@@ -135,6 +135,7 @@ export default function Home() {
         <div className="section-heading centered-heading"><span className="section-kicker">報名前先看</span><h2>常見問題</h2></div>
         <div className="faq-list">
           <details><summary><span>👨‍👩‍👧</span>親子可以一起參加嗎？</summary><p>可以。活動對象是國小二至六年級，家長可陪同協助；每一位付費參加者都有一份材料、4 顆月餅與專屬模具。</p></details>
+          <details><summary><span>✏️</span>報名時要先想好名字或圖案嗎？</summary><p>不用。名字和圖案都是活動當天現場決定，報名表單不需要填寫，也不必事先傳圖給我們。</p></details>
           <details><summary><span>🖨️</span>模具可以帶回家嗎？</summary><p>可以。你的專屬月餅模是用食品級材料 3D 列印的，活動結束後連同月餅禮盒一起帶回家，之後在家也能重複使用。</p></details>
           <details><summary><span>🥜</span>有食物過敏可以參加嗎？</summary><p>本次月餅內含蛋、奶、巧克力。請在報名表單完整填寫過敏原，我們會先確認是否能安全安排。</p></details>
           <details><summary><span>🌧️</span>若遇颱風或停課怎麼辦？</summary><p>依高雄市政府與校方公告辦理；若活動取消，將通知延期或退款方式。</p></details>
