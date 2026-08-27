@@ -24,7 +24,12 @@ test("server-renders the mooncake registration landing page", async () => {
   const html = await response.text();
   assert.match(html, /把名字印進中秋/);
   assert.match(html, /送出報名資料/);
-  assert.match(html, /每人 NT\$800/);
+  // 價格與名額必須與傳單一致（傳單已印製發出）
+  assert.match(html, /每人 NT\$650/);
+  assert.match(html, /每場限 15 組/);
+  // 傳單賣點：專屬模具帶回家、可重複使用
+  assert.match(html, /專屬 3D 月餅模（可重複使用）/);
+  assert.doesNotMatch(html, /NT\$800|限額 14 席/);
   assert.match(html, /9\/25–9\/28/);
   assert.match(html, /09:00–12:00／13:00–16:00/);
   assert.match(html, /挑一個最適合你的中秋手作時光/);

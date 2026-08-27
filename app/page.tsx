@@ -2,10 +2,10 @@ import Image from "next/image";
 import { RegistrationForm } from "./components/RegistrationForm";
 
 const experienceCards = [
-  { icon: "🖨️", title: "認識 3D 模具", text: "看看數位設計如何變成立體模具，感受科技與手作的結合。", tone: "blue" },
-  { icon: "🥣", title: "親手包餡", text: "使用 JIMMY39 協力準備的餡料，掌握餅皮與餡料比例。", tone: "orange" },
-  { icon: "🧩", title: "壓出專屬圖案", text: "用完成 QA 的客製模具，把想法清楚壓進月餅。", tone: "mint" },
-  { icon: "🎁", title: "禮盒帶回家", text: "完成 4 顆迷你月餅、裝盒保存，留下專屬中秋回憶。", tone: "purple" },
+  { icon: "✏️", title: "設計", text: "畫出自己的名字或圖案，成為月餅上的專屬圖樣。", tone: "blue" },
+  { icon: "🖨️", title: "列印", text: "用食品級材料 3D 列印出屬於你的專屬月餅模。", tone: "orange" },
+  { icon: "🥮", title: "手作", text: "使用 JIMMY39 協力準備的餡料，親手壓出 4 顆造型月餅。", tone: "mint" },
+  { icon: "🎁", title: "帶回", text: "月餅禮盒與專屬模具一起帶回家，模具可重複使用。", tone: "purple" },
 ];
 
 const process = [
@@ -42,21 +42,22 @@ export default function Home() {
 
       <section className="hero" id="top">
         <div className="hero-copy">
-          <span className="eyebrow">2026 中秋限定 · 招生預告</span>
+          <span className="eyebrow">2026 中秋限定 · 科技 × 手作</span>
           <h1>把名字<br /><em>印進中秋</em></h1>
           <p className="hero-lead">
             用 3D 列印模具，親手完成一份充滿巧思的造型月餅。從包餡、壓模到裝盒，三小時享受科技與手作交會的中秋時光。
           </p>
           <div className="hero-pills" aria-label="活動重點">
-            <span>每人 NT$800</span>
-            <span>帶回 4 顆月餅</span>
+            <span>每人 NT$650</span>
+            <span>國小二～六年級</span>
+            <span>4 顆月餅＋專屬模具帶回</span>
             <span>每日上、下午各 1 梯</span>
           </div>
           <div className="hero-actions">
             <a className="button primary" href="#register">選場次報名 <span>→</span></a>
             <a className="button ghost" href="#experience">先看體驗內容</a>
           </div>
-          <p className="micro-note">日期與場地以正式招生公告為準</p>
+          <p className="micro-note">內含蛋、奶、巧克力，過敏請於報名時告知</p>
         </div>
 
         <div className="hero-art" aria-label="可愛月餅角色與 3D 列印模具插畫">
@@ -67,17 +68,17 @@ export default function Home() {
       </section>
 
       <section className="quick-facts" aria-label="活動資訊">
-        <article><span className="fact-icon">📅</span><div><small>活動日期（暫定）</small><strong>9/25–9/28</strong></div></article>
+        <article><span className="fact-icon">📅</span><div><small>活動日期</small><strong>9/25–9/28（五～一）</strong></div></article>
         <article><span className="fact-icon">🕘</span><div><small>每日場次</small><strong>09:00–12:00／13:00–16:00</strong></div></article>
         <article><span className="fact-icon">📍</span><div><small>活動地點</small><strong>高科大建工校區</strong></div></article>
-        <article><span className="fact-icon">🎁</span><div><small>完成成果</small><strong>4 顆月餅＋禮盒</strong></div></article>
+        <article><span className="fact-icon">🎁</span><div><small>完成成果</small><strong>4 顆月餅＋禮盒＋模具</strong></div></article>
       </section>
 
       <section className="section" id="experience">
         <div className="section-heading centered-heading">
-          <span className="section-kicker">一場體驗，兩種驚喜</span>
-          <h2>科技負責客製，雙手完成溫度</h2>
-          <p>客製設計在活動前先完成，現場不必等待列印，把時間留給真正好玩的月餅製作。</p>
+          <span className="section-kicker">四個步驟，一份專屬中秋</span>
+          <h2>把名字印進月餅，模具還能帶回家</h2>
+          <p>從畫下你的名字或圖案，到 3D 列印出專屬模具、親手壓出月餅——完成的月餅禮盒與模具，全部帶回家。</p>
         </div>
         <div className="experience-grid">
           {experienceCards.map((card, index) => (
@@ -107,7 +108,7 @@ export default function Home() {
       <section className="section schedule-section" id="schedule">
         <div className="section-heading schedule-heading">
           <div><span className="section-kicker">連續四天，共 8 梯</span><h2>挑一個最適合你的中秋手作時光</h2></div>
-          <div className="limit-pill"><span>👥</span><div><small>小班操作</small><strong>每梯限額 14 席</strong></div></div>
+          <div className="limit-pill"><span>👥</span><div><small>小班操作</small><strong>每場限 15 組</strong></div></div>
         </div>
         <div className="schedule-grid">
           {schedule.map(([date, day, dayTag, times]) => (
@@ -133,9 +134,9 @@ export default function Home() {
       <section className="section faq-section" id="faq">
         <div className="section-heading centered-heading"><span className="section-kicker">報名前先看</span><h2>常見問題</h2></div>
         <div className="faq-list">
-          <details><summary><span>👨‍👩‍👧</span>親子可以一起參加嗎？</summary><p>可以。請依實際操作人數報名；每一位付費參加者都有一份材料與 4 顆月餅。</p></details>
-          <details><summary><span>🖨️</span>現場會使用哪些模具？</summary><p>活動會準備多款 3D 列印模具，參加者於現場依教學安排使用，不需要在報名時預先選擇。</p></details>
-          <details><summary><span>🥜</span>有食物過敏可以參加嗎？</summary><p>月餅常見蛋、奶、麩質、大豆、芝麻與堅果等過敏原。請在表單完整填寫，我們會先確認是否能安全安排。</p></details>
+          <details><summary><span>👨‍👩‍👧</span>親子可以一起參加嗎？</summary><p>可以。活動對象是國小二至六年級，家長可陪同協助；每一位付費參加者都有一份材料、4 顆月餅與專屬模具。</p></details>
+          <details><summary><span>🖨️</span>模具可以帶回家嗎？</summary><p>可以。你的專屬月餅模是用食品級材料 3D 列印的，活動結束後連同月餅禮盒一起帶回家，之後在家也能重複使用。</p></details>
+          <details><summary><span>🥜</span>有食物過敏可以參加嗎？</summary><p>本次月餅內含蛋、奶、巧克力。請在報名表單完整填寫過敏原，我們會先確認是否能安全安排。</p></details>
           <details><summary><span>🌧️</span>若遇颱風或停課怎麼辦？</summary><p>依高雄市政府與校方公告辦理；若活動取消，將通知延期或退款方式。</p></details>
           <details><summary><span>💳</span>送出表單就算完成報名嗎？</summary><p>表單送出代表預約成功；完成付款並收到確認通知後，才算正式保留名額。</p></details>
         </div>
@@ -155,7 +156,7 @@ export default function Home() {
         <a href="#top">回到頁首 ↑</a>
       </footer>
 
-      <a className="mobile-register" href="#register"><span>每人 NT$800</span><strong>立即選場次 →</strong></a>
+      <a className="mobile-register" href="#register"><span>每人 NT$650</span><strong>立即選場次 →</strong></a>
     </main>
   );
 }

@@ -47,7 +47,7 @@ export async function POST(request: Request) {
       email: text(body.email, 160),
       participantNames,
       quantity,
-      amount: quantity * 800,
+      amount: quantity * 650,
       sessionCode,
       sessionLabel: sessionLabels[sessionCode],
       customType: "現場選擇",

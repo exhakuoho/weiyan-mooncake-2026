@@ -23,7 +23,7 @@ export function RegistrationForm() {
   const [quantity, setQuantity] = useState(1);
   const [sessionCode, setSessionCode] = useState("");
   const [submitState, setSubmitState] = useState<SubmitState>({ kind: "idle" });
-  const amount = useMemo(() => quantity * 800, [quantity]);
+  const amount = useMemo(() => quantity * 650, [quantity]);
   const selectedSession = sessions.find(([code]) => code === sessionCode)?.[1] ?? "尚未選擇";
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -101,7 +101,7 @@ export function RegistrationForm() {
           </label>
         </div>
 
-        <label><span>過敏原／飲食需求</span><input name="allergies" placeholder="例如：蛋、奶、麩質、堅果；沒有請填無" /></label>
+        <label><span>過敏原／飲食需求</span><input name="allergies" placeholder="例如：蛋、奶、巧克力；沒有請填無" /></label>
         <label><span>備註</span><textarea name="notes" rows={2} placeholder="其他想讓我們知道的事情" /></label>
 
         <input name="website" tabIndex={-1} autoComplete="off" className="honeypot" aria-hidden="true" />
@@ -124,15 +124,15 @@ export function RegistrationForm() {
         <h3>{selectedSession}</h3>
         <dl>
           <div><dt>參加人數</dt><dd>{quantity} 人</dd></div>
-          <div><dt>每人費用</dt><dd>NT$800</dd></div>
+          <div><dt>每人費用</dt><dd>NT$650</dd></div>
           <div className="summary-total"><dt>應付金額</dt><dd>NT${amount.toLocaleString("zh-TW")}</dd></div>
         </dl>
         <div className="summary-includes">
           <strong>費用包含</strong>
-          <span>✓ 3D 列印模具體驗</span>
-          <span>✓ 4 顆月餅材料</span>
-          <span>✓ 包裝禮盒</span>
-          <span>✓ 現場教學</span>
+          <span>✓ 4 顆造型月餅</span>
+          <span>✓ 精美禮盒</span>
+          <span>✓ 專屬 3D 月餅模（可重複使用）</span>
+          <span>✓ 全部材料與工具</span>
         </div>
         <p className="summary-note">付款與名額確認方式將於正式招生公告說明。</p>
       </aside>

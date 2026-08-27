@@ -24,7 +24,7 @@
   要建置請先複製到本機 SSD 再做，改好的原始碼再抄回來。`desktop.ini` 已加進 `.gitignore`。
 - **活動日期／價格／梯次寫死在程式碼裡**：`app/page.tsx` 的 `schedule`、`process` 陣列，
   以及 `app/api/register/route.ts` 的 `sessionLabels`。改場次要**兩邊一起改**，
-  只改前端會讓報名 API 因為 `sessionCode` 對不上而回 400。金額 `quantity * 800` 也在該檔。
+  只改前端會讓報名 API 因為 `sessionCode` 對不上而回 400。金額 `quantity * 650` 也在該檔。
 
 ## 部署
 
