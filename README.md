@@ -60,6 +60,39 @@ npx wrangler secret put GOOGLE_SHEETS_WEBHOOK_URL
 npx wrangler secret put SHEETS_WEBHOOK_TOKEN
 ```
 
+## 報名資料流（Google 端）
+
+```
+報名表單 → /api/register（驗證欄位）→ Apps Script /exec（驗 token）→ Google 試算表
+```
+
+| 環節 | 位置 |
+|---|---|
+| 試算表 | 「2026 3D客製月餅工作坊｜報名管理」，寫入分頁 **報名資料** |
+| 接收程式 | Apps Script 專案「2026 3D客製月餅工作坊｜報名連動」 |
+| 網址 | 該專案 → 部署 → 管理部署作業 → 網頁應用程式「網址」（就是 `GOOGLE_SHEETS_WEBHOOK_URL`） |
+| 密鑰 | 該專案 → 專案設定 → 指令碼屬性 `WEBHOOK_TOKEN`（必須與 `SHEETS_WEBHOOK_TOKEN` 一字不差） |
+
+改動時要注意：
+
+- **欄位順序是寫死的。** Apps Script 用 `appendRow([...])` 依序塞 18 個欄位，順序必須對上
+  試算表第 3 列的欄位名稱。要加欄位就得同時改三個地方：`route.ts` 的 payload、
+  Apps Script 的 `appendRow`、試算表的欄位列。只改一邊會整欄錯位。
+- **Apps Script 不驗證場次代碼**，收到什麼就寫什麼。所以網站改場次不需要動 Apps Script，
+  但也代表打錯的代碼不會被擋——`route.ts` 的 `sessionLabels` 白名單是唯一防線。
+- **「場次設定」分頁程式不會讀**，純人工參考用。改了網站場次記得手動同步這張表，
+  否則現場人員看到的名額與梯次會是舊的。
+- 部署的「誰可以存取」必須是**所有人**，否則 Worker 打過去會拿到登入頁而不是 JSON。
+- 改完 Apps Script 程式碼後要**重新部署新版本**，否則 `/exec` 跑的還是舊版。
+
+驗證 webhook 還活著（不需要 token）：
+
+```bash
+curl -L "<你的 /exec 網址>"
+```
+
+回 `{"ok":true,"service":"mooncake-registration"}` 就代表部署正常。
+
 ## 部署（Cloudflare Workers）
 
 這個站有 SSR 與 `/api/register`，所以是**部署成 Worker**，不是純靜態的 Pages。

@@ -26,6 +26,9 @@
   `app/api/register/route.ts` 的 `customType` 固定送 `現場選擇`。不要因為傳單寫
   「設計｜畫出自己的名字或圖案」就加客製欄位或上傳功能——那個步驟發生在現場。
   模具則是活動後可以帶回家（費用已包含）。
+- **Google 端的欄位順序是寫死的**：Apps Script 用 `appendRow` 依序塞 18 欄，對應試算表第 3 列。
+  要加／改報名欄位，`route.ts` 的 payload、Apps Script 的 `appendRow`、試算表欄位列
+  三者必須同時改，只改一邊會整欄錯位。詳見 README「報名資料流（Google 端）」。
 - **活動日期／價格／梯次寫死在程式碼裡**：`app/page.tsx` 的 `schedule`、`process` 陣列，
   以及 `app/api/register/route.ts` 的 `sessionLabels`。改場次要**兩邊一起改**，
   只改前端會讓報名 API 因為 `sessionCode` 對不上而回 400。金額 `quantity * 650` 也在該檔。
