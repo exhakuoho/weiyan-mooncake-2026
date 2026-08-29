@@ -130,6 +130,29 @@ function sendRegistrationNotification_(data) {
   }
 }
 
+/**
+ * 手動執行用：寄一封範例通知信。第一次執行會跳出 Gmail 寄信權限的授權畫面，
+ * 用來完成授權；之後也可以用它確認寄信功能還正常。正式報名流程不會呼叫這個函式。
+ */
+function sendTestNotification() {
+  const ok = sendRegistrationNotification_({
+    registrationCode: "MOON-TEST-" + new Date().getTime(),
+    submittedAt: new Date().toISOString(),
+    contactName: "測試聯絡人",
+    phone: "0912345678",
+    email: "",
+    participantNames: "測試學員",
+    quantity: 1,
+    amount: 650,
+    sessionLabel: "測試場次",
+    allergies: "無",
+    notes: "手動觸發的測試信，可直接刪除",
+    source: "manual-test",
+  });
+  console.log("sendTestNotification 結果：" + ok + "，剩餘寄信額度 " + MailApp.getRemainingDailyQuota());
+  return ok;
+}
+
 /** 換行字元。原始碼刻意不含反斜線跳脫，方便整段注入編輯器。 */
 const NL_ = String.fromCharCode(10);
 
