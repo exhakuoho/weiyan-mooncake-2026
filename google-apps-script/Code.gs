@@ -1,34 +1,8 @@
 const SHEET_ID = "1FFPclCTVxNplhf0xf3utPAG6bIoH9v4rSn0rZhvcxEU";
 const SHEET_NAME = "報名資料";
 
-function doGet(e) {
-  // 暫時性維護鉤子。只在 /dev（head 版本）生效；正式 /exec 跑的是已部署的版本，
-  // 不會受影響。修完場次設定就會移除。
-  if (e && e.parameter && e.parameter.maintenance === "fix-sessions") {
-    return json_(fixSessionSheet_());
-  }
+function doGet() {
   return json_({ ok: true, service: "mooncake-registration" });
-}
-
-/** 一次性維護：把「場次設定」A3:E10 寫成正確的 8 個場次。F 欄是公式，不碰。 */
-function fixSessionSheet_() {
-  const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName("場次設定");
-  if (!sheet) throw new Error("找不到場次設定分頁");
-  const rows = [
-    ["0925-0900", new Date(2026, 8, 25), "五", "09:00–12:00", 15],
-    ["0925-1300", new Date(2026, 8, 25), "五", "13:00–16:00", 15],
-    ["0926-0900", new Date(2026, 8, 26), "六", "09:00–12:00", 15],
-    ["0926-1300", new Date(2026, 8, 26), "六", "13:00–16:00", 15],
-    ["0927-0900", new Date(2026, 8, 27), "日", "09:00–12:00", 15],
-    ["0927-1300", new Date(2026, 8, 27), "日", "13:00–16:00", 15],
-    ["0928-0900", new Date(2026, 8, 28), "一", "09:00–12:00", 15],
-    ["0928-1300", new Date(2026, 8, 28), "一", "13:00–16:00", 15],
-  ];
-  const before = sheet.getRange(3, 1, 8, 6).getDisplayValues();
-  sheet.getRange(3, 1, 8, 5).setValues(rows);
-  SpreadsheetApp.flush();
-  const after = sheet.getRange(3, 1, 8, 6).getDisplayValues();
-  return { ok: true, before: before, after: after };
 }
 
 function doPost(e) {
