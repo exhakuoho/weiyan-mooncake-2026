@@ -67,6 +67,12 @@ export async function POST(request: Request) {
     const result = await response.json().catch(() => null);
     if (!response.ok || !result?.ok) throw new Error("Google Sheet webhook failed");
 
+    // The row is already in the sheet at this point. A failed notification email
+    // must not fail the request: the visitor would re-submit and register twice.
+    if (result.emailSent === false) {
+      console.error("Registration saved but notification email failed", registrationCode);
+    }
+
     return NextResponse.json({ ok: true, registrationCode });
   } catch (error) {
     console.error("Registration error", error);
