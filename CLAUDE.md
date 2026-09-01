@@ -32,6 +32,12 @@
 - **活動日期／價格／梯次寫死在程式碼裡**：`app/page.tsx` 的 `schedule`、`process` 陣列，
   以及 `app/api/register/route.ts` 的 `sessionLabels`。改場次要**兩邊一起改**，
   只改前端會讓報名 API 因為 `sessionCode` 對不上而回 400。金額 `quantity * 650` 也在該檔。
+- **活動名稱散在四個地方，其中一個是圖片**：2026-09-01 已把預覽名稱從「把名字印進中秋」
+  改成「月下玩創意」，動到 `app/layout.tsx` 的 `title`／OG alt、`app/page.tsx` 的頁尾與
+  報名區小標、`tests/rendered-html.test.mjs` 的 assertion、README 開頭。**但兩處刻意沒改**：
+  `app/page.tsx` 的 Hero `<h1>把名字／印進中秋</h1>`，以及 `public/og.jpg` 這張分享圖——
+  圖上的大字是燒進圖片裡的，改程式碼改不到，要重新做圖再壓成 1200×630 JPG 才會變。
+  之後再改名時，先 `grep -rn "舊名稱" app tests README.md` 把文字找齊，圖片另外重做。
 
 ## 部署
 

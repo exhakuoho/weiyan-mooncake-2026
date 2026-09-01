@@ -22,7 +22,7 @@ test("server-renders the mooncake registration landing page", async () => {
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
-  assert.match(html, /把名字印進中秋/);
+  assert.match(html, /月下玩創意/);
   assert.match(html, /送出報名資料/);
   // 價格與名額必須與傳單一致（傳單已印製發出）
   assert.match(html, /每人 NT\$650/);

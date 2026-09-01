@@ -124,7 +124,7 @@ export default function Home() {
 
       <section className="register-section" id="register">
         <div className="section-heading centered-heading light-heading">
-          <span className="section-kicker">準備好把名字印進中秋了嗎？</span>
+          <span className="section-kicker">準備好一起月下玩創意了嗎？</span>
           <h2>填寫資料，預約你的專屬場次</h2>
           <p>送出後會取得報名編號；付款與名額確認方式由 FAYMI 後續公告。</p>
         </div>
@@ -152,7 +152,7 @@ export default function Home() {
       </section>
 
       <footer>
-        <div><Image className="footer-logo" src="/weiyan-logo-256.jpg" alt="微研 WEIYAN Logo" width={70} height={70} /><strong>微研｜把名字印進中秋</strong></div>
+        <div><Image className="footer-logo" src="/weiyan-logo-256.jpg" alt="微研 WEIYAN Logo" width={70} height={70} /><strong>微研｜月下玩創意</strong></div>
         <p>2026 3D 客製月餅工作坊｜活動日期、梯次、場地與內容以正式招生公告為準。</p>
         <a href="#top">回到頁首 ↑</a>
       </footer>

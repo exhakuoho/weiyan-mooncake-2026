@@ -1,6 +1,6 @@
 # 微研 WEIYAN｜2026 中秋 3D 客製月餅工作坊 報名網站
 
-「把名字印進中秋」活動的招生／報名單頁。報名資料透過 Google Apps Script Webhook
+「月下玩創意」活動的招生／報名單頁。報名資料透過 Google Apps Script Webhook
 寫進 Google 試算表。
 
 - 正式站：部署在 Cloudflare Workers（見下方「部署」）

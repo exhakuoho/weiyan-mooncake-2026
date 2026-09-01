@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import "./globals.css";
 
-const title = "把名字印進中秋｜3D 客製月餅工作坊";
+const title = "月下玩創意｜3D 客製月餅工作坊";
 const description = "用 3D 列印模具親手製作造型月餅，三小時完成 4 顆月餅與禮盒。";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -22,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       locale: "zh_TW",
       url: origin,
-      images: [{ url: socialImage, width: 1200, height: 630, alt: "把名字印進中秋｜3D 客製月餅工作坊" }],
+      images: [{ url: socialImage, width: 1200, height: 630, alt: "月下玩創意｜3D 客製月餅工作坊" }],
     },
     twitter: { card: "summary_large_image", title, description, images: [socialImage] },
   };
