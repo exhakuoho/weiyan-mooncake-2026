@@ -133,7 +133,7 @@ Static Assets 提供，**不經過** Worker 的 `/_vinext/image` 最佳化端點
 | 用途 | 檔案 | 大小 |
 |---|---|---|
 | Hero 主視覺 | `hero-mascots-cutout.webp` | 127 KB（原 PNG 2.5 MB） |
-| OG 分享圖 | `og.jpg` 1200×630 | 156 KB（原 PNG 1.9 MB） |
+| OG 分享圖 | `og.jpg` 1200×630 | 146 KB（原 PNG 1.7 MB） |
 | Logo／favicon | `weiyan-logo-256.jpg` | 11 KB（原 156 KB） |
 
 換圖時請照這個規格壓過再放，不要直接丟原始檔。未壓縮的原圖

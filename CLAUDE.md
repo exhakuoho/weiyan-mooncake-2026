@@ -32,12 +32,16 @@
 - **活動日期／價格／梯次寫死在程式碼裡**：`app/page.tsx` 的 `schedule`、`process` 陣列，
   以及 `app/api/register/route.ts` 的 `sessionLabels`。改場次要**兩邊一起改**，
   只改前端會讓報名 API 因為 `sessionCode` 對不上而回 400。金額 `quantity * 650` 也在該檔。
-- **活動名稱散在四個地方，其中一個是圖片**：2026-09-01 已把預覽名稱從「把名字印進中秋」
-  改成「月下玩創意」，動到 `app/layout.tsx` 的 `title`／OG alt、`app/page.tsx` 的頁尾與
-  報名區小標、`tests/rendered-html.test.mjs` 的 assertion、README 開頭。**但兩處刻意沒改**：
-  `app/page.tsx` 的 Hero `<h1>把名字／印進中秋</h1>`，以及 `public/og.jpg` 這張分享圖——
-  圖上的大字是燒進圖片裡的，改程式碼改不到，要重新做圖再壓成 1200×630 JPG 才會變。
-  之後再改名時，先 `grep -rn "舊名稱" app tests README.md` 把文字找齊，圖片另外重做。
+- **活動名稱有一份是「畫在圖上」的**：2026-09-01 活動預覽名稱從「把名字印進中秋」改成
+  「月下玩創意」，文字部分在 `app/layout.tsx`（`title`／OG／Twitter／圖片 alt）、
+  `app/page.tsx`（頁尾、報名區小標）、`tests/rendered-html.test.mjs`、README；
+  **但 `public/og.jpg` 上那行大字是圖片本身**，改程式碼改不到，是把舊字塗掉後用
+  Zen Maru Gothic Black（圓體，`@fontsource/zen-maru-gothic` 的 japanese 900 子集）
+  重描上去的，`public/og.png`（1731×909 原始檔）也一起改，兩張要保持同步。
+  **Hero 的 `<h1>把名字／印進中秋</h1>` 是刻意保留的**，使用者決定不動那個視覺設計。
+  之後再改名：先 `grep -rn "舊名稱" app tests README.md` 把文字找齊，圖片要另外重做。
+- **換 OG 圖後要動 `app/layout.tsx` 的 `?v=` 參數**（目前 `?v=20260901`）。
+  LINE／Facebook 會把分享卡片快取住，網址沒變就有可能一直顯示舊圖。
 
 ## 部署
 
