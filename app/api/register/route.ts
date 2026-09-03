@@ -15,6 +15,32 @@ function text(value: unknown, max = 300) {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
 }
 
+// 身分證字號：投保用，所以寧可在這裡擋下打錯的，也不要讓保單填不出來。
+// 本國證號（1 個英文字母 ＋ 9 碼）連檢查碼一起驗；
+// 舊式居留證號（2 個英文字母 ＋ 8 碼）只驗格式，它的檢查碼規則不同。
+const ID_LETTER_VALUES = "ABCDEFGHJKLMNPQRSTUVXYWZIO";
+
+function isNationalId(id: string) {
+  if (!/^[A-Z][1289]\d{8}$/.test(id)) return false;
+  const letterValue = ID_LETTER_VALUES.indexOf(id[0]) + 10;
+  const weights = [8, 7, 6, 5, 4, 3, 2, 1, 1];
+  const sum = Math.floor(letterValue / 10) + (letterValue % 10) * 9
+    + weights.reduce((acc, weight, i) => acc + Number(id[i + 1]) * weight, 0);
+  return sum % 10 === 0;
+}
+
+function isResidentId(id: string) {
+  return /^[A-Z]{2}\d{8}$/.test(id);
+}
+
+/** 把「多人用頓號分隔」的輸入拆開、去掉空白並轉大寫，回傳正規化後的清單。 */
+function splitIds(value: unknown) {
+  return text(value, 200)
+    .split(/[、,，\s;；/]+/)
+    .map((id) => id.replace(/\s/g, "").toUpperCase())
+    .filter(Boolean);
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -25,8 +51,16 @@ export async function POST(request: Request) {
     const contactName = text(body.contactName, 80);
     const phone = text(body.phone, 20);
     const participantNames = text(body.participantNames, 200);
+    const participantIds = splitIds(body.participantIds);
     if (!contactName || !/^09\d{8}$/.test(phone) || !participantNames || !sessionLabels[sessionCode] || body.consent !== "同意") {
       return NextResponse.json({ message: "請確認必填欄位與手機格式。" }, { status: 400 });
+    }
+    if (!participantIds.length) {
+      return NextResponse.json({ message: "請填寫參加者身分證字號，投保需要。" }, { status: 400 });
+    }
+    const badId = participantIds.find((id) => !isNationalId(id) && !isResidentId(id));
+    if (badId) {
+      return NextResponse.json({ message: `身分證字號「${badId}」看起來不對，請再確認一次。` }, { status: 400 });
     }
 
     const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
@@ -56,6 +90,9 @@ export async function POST(request: Request) {
       notes: text(body.notes, 500),
       consent: "同意",
       source: text(body.source, 40) || "website",
+      // 新欄位一律加在最後：Apps Script 的 appendRow 是照順序塞的，
+      // 插在中間會讓試算表既有資料整欄錯位。
+      participantIds: participantIds.join("、"),
     };
 
     const response = await fetch(webhookUrl, {

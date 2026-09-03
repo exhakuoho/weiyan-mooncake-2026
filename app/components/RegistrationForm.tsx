@@ -84,6 +84,17 @@ export function RegistrationForm() {
         </div>
         <label><span>Email</span><input name="email" type="email" autoComplete="email" placeholder="用於接收活動通知" /></label>
         <label><span>參加者姓名 *</span><textarea name="participantNames" required rows={2} placeholder="多人報名請用頓號分隔，例如：小美、小安" /></label>
+        <label>
+          <span>參加者身分證字號 *（投保用）</span>
+          <input
+            name="participantIds"
+            required
+            autoComplete="off"
+            autoCapitalize="characters"
+            spellCheck={false}
+            placeholder="例如 A123456789；多人請依姓名順序用頓號分隔"
+          />
+        </label>
 
         <div className="field-grid two-columns">
           <label>
@@ -108,7 +119,7 @@ export function RegistrationForm() {
         <input type="hidden" name="source" value="website" />
         <label className="consent-row">
           <input type="checkbox" name="consent" value="同意" required />
-          <span>我已確認活動為招生預約，並同意主辦單位為報名聯繫與活動執行使用上述資料。*</span>
+          <span>我已確認活動為招生預約，並同意主辦單位為報名聯繫、活動執行與投保作業使用上述資料（含身分證字號）。*</span>
         </label>
 
         {submitState.kind === "error" && <p className="form-error" role="alert">{submitState.message}</p>}

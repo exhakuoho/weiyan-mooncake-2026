@@ -75,9 +75,11 @@ npx wrangler secret put SHEETS_WEBHOOK_TOKEN
 
 改動時要注意：
 
-- **欄位順序是寫死的。** Apps Script 用 `appendRow([...])` 依序塞 18 個欄位，順序必須對上
+- **欄位順序是寫死的。** Apps Script 用 `appendRow([...])` 依序塞 19 個欄位，順序必須對上
   試算表第 3 列的欄位名稱。要加欄位就得同時改三個地方：`route.ts` 的 payload、
   Apps Script 的 `appendRow`、試算表的欄位列。只改一邊會整欄錯位。
+- **新欄位一律加在最後一欄。** 插在中間會讓試算表裡既有的報名資料整欄往右錯開，
+  對不回原本的欄位名稱。第 19 欄「參加者身分證字號」就是照這個規則加在尾巴的。
 - **Apps Script 不驗證場次代碼**，收到什麼就寫什麼。所以網站改場次不需要動 Apps Script，
   但也代表打錯的代碼不會被擋——`route.ts` 的 `sessionLabels` 白名單是唯一防線。
 - **「場次設定」分頁程式不會讀**，純人工參考用。改了網站場次記得手動同步這張表，

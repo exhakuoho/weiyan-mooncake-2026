@@ -38,6 +38,9 @@ test("server-renders the mooncake registration landing page", async () => {
   assert.match(html, /hero-mascots-cutout\.webp/);
   assert.match(html, /weiyan-logo-256\.jpg/);
   assert.match(html, /微研 WEIYAN/);
+  // 投保用的身分證字號欄位（2026-09-03 新增）
+  assert.match(html, /參加者身分證字號/);
+  assert.match(html, /name="participantIds"/);
   assert.match(html, /og\.jpg/);
   assert.doesNotMatch(html, /客製類型|客製內容|你的名字，真的會出現在月餅上/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|SkeletonPreview/i);
@@ -60,4 +63,50 @@ test("registration API rejects incomplete submissions", async () => {
   assert.equal(response.status, 400);
   const body = await response.json();
   assert.match(body.message, /必填欄位/);
+});
+
+test("registration API validates the participant ID numbers", async () => {
+  const worker = await getWorker();
+  const base = {
+    contactName: "王小美",
+    phone: "0912345678",
+    participantNames: "小美",
+    sessionCode: "0925-0900",
+    quantity: 1,
+    consent: "同意",
+  };
+  const post = (body) =>
+    worker.fetch(
+      new Request("https://name-mooncake-2026.example/api/register", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(body),
+      }),
+      env,
+      context,
+    );
+
+  // 沒填就擋下來，訊息要講清楚是哪個欄位
+  let response = await post(base);
+  assert.equal(response.status, 400);
+  assert.match((await response.json()).message, /身分證字號/);
+
+  // 檢查碼錯一位也要擋，並把那個號碼回報出來讓填表的人知道錯在哪
+  response = await post({ ...base, participantIds: "A123456788" });
+  assert.equal(response.status, 400);
+  assert.match((await response.json()).message, /A123456788/);
+
+  // 合法的多人輸入：小寫、前後空白、頓號分隔都要能通過驗證。
+  // 這裡回 503 是因為測試環境沒設 webhook 密鑰，代表已經走過驗證了。
+  response = await post({
+    ...base,
+    participantNames: "小美、小安",
+    quantity: 2,
+    participantIds: " a123456789、F131104093 ",
+  });
+  assert.equal(response.status, 503);
+
+  // 舊式居留證號（2 個英文字母 ＋ 8 碼）也要放行
+  response = await post({ ...base, participantIds: "AB12345678" });
+  assert.equal(response.status, 503);
 });
