@@ -33,11 +33,26 @@ function isResidentId(id: string) {
   return /^[A-Z]{2}\d{8}$/.test(id);
 }
 
-/** 把「多人用頓號分隔」的輸入拆開、去掉空白並轉大寫，回傳正規化後的清單。 */
+/**
+ * 全形轉半形。用注音輸入法打的「Ａ１２３」看起來跟半形一模一樣，
+ * 但字元不同，不轉的話正規表示式一律比對不到，家長會被莫名其妙擋下來。
+ */
+function toHalfWidth(value: string) {
+  return value
+    .replace(/[\uFF01-\uFF5E]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0xFEE0))
+    .replace(/\u3000/g, " ");
+}
+
+/** 只留數字，順便處理全形與 0912-345-678 這種寫法。 */
+function digitsOnly(value: unknown) {
+  return toHalfWidth(text(value, 30)).replace(/\D/g, "");
+}
+
+/** 把「多人用頓號分隔」的輸入拆開並正規化，回傳清單。 */
 function splitIds(value: unknown) {
-  return text(value, 200)
-    .split(/[、,，\s;；/]+/)
-    .map((id) => id.replace(/\s/g, "").toUpperCase())
+  return toHalfWidth(text(value, 200))
+    .split(/[、,，;；/\s]+/)
+    .map((id) => id.replace(/[^0-9A-Za-z]/g, "").toUpperCase())
     .filter(Boolean);
 }
 
@@ -49,18 +64,28 @@ export async function POST(request: Request) {
     const quantity = Math.min(4, Math.max(1, Number(body.quantity) || 1));
     const sessionCode = text(body.sessionCode, 20);
     const contactName = text(body.contactName, 80);
-    const phone = text(body.phone, 20);
+    const phone = digitsOnly(body.phone);
     const participantNames = text(body.participantNames, 200);
     const participantIds = splitIds(body.participantIds);
-    if (!contactName || !/^09\d{8}$/.test(phone) || !participantNames || !sessionLabels[sessionCode] || body.consent !== "同意") {
-      return NextResponse.json({ message: "請確認必填欄位與手機格式。" }, { status: 400 });
+    // 訊息要指名是哪一欄，不然填表的人只能一欄一欄猜。
+    const missing: string[] = [];
+    if (!contactName) missing.push("聯絡人姓名");
+    if (!/^09\d{8}$/.test(phone)) missing.push("手機（09 開頭共 10 碼）");
+    if (!participantNames) missing.push("參加者姓名");
+    if (!sessionLabels[sessionCode]) missing.push("場次");
+    if (body.consent !== "同意") missing.push("同意條款");
+    if (missing.length) {
+      return NextResponse.json({ message: `請確認這些必填欄位：${missing.join("、")}。` }, { status: 400 });
     }
     if (!participantIds.length) {
       return NextResponse.json({ message: "請填寫參加者身分證字號，投保需要。" }, { status: 400 });
     }
     const badId = participantIds.find((id) => !isNationalId(id) && !isResidentId(id));
     if (badId) {
-      return NextResponse.json({ message: `身分證字號「${badId}」看起來不對，請再確認一次。` }, { status: 400 });
+      return NextResponse.json(
+        { message: `身分證字號「${badId}」看起來不對，請再確認一次（英文字母請用半形大寫）。` },
+        { status: 400 },
+      );
     }
 
     const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;

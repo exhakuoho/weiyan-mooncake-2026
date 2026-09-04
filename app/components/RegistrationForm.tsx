@@ -80,7 +80,7 @@ export function RegistrationForm() {
 
         <div className="field-grid two-columns">
           <label><span>聯絡人姓名 *</span><input name="contactName" autoComplete="name" required placeholder="王小美" /></label>
-          <label><span>手機 *</span><input name="phone" type="tel" inputMode="tel" autoComplete="tel" required pattern="09[0-9]{8}" placeholder="0912345678" /></label>
+          <label><span>手機 *</span><input name="phone" type="tel" inputMode="tel" autoComplete="tel" required placeholder="0912345678" /></label>
         </div>
         <label><span>Email</span><input name="email" type="email" autoComplete="email" placeholder="用於接收活動通知" /></label>
         <label><span>參加者姓名 *</span><textarea name="participantNames" required rows={2} placeholder="多人報名請用頓號分隔，例如：小美、小安" /></label>

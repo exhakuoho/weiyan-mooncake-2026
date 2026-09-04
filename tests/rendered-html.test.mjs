@@ -110,3 +110,39 @@ test("registration API validates the participant ID numbers", async () => {
   response = await post({ ...base, participantIds: "AB12345678" });
   assert.equal(response.status, 503);
 });
+
+test("registration API tolerates full-width and punctuated input", async () => {
+  const worker = await getWorker();
+  const post = (body) =>
+    worker.fetch(
+      new Request("https://name-mooncake-2026.example/api/register", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(body),
+      }),
+      env,
+      context,
+    );
+
+  // 缺欄位時訊息要指名是哪一欄，不能只說「格式錯誤」
+  let response = await post({ contactName: "王小美", consent: "同意" });
+  assert.equal(response.status, 400);
+  const message = (await response.json()).message;
+  assert.match(message, /必填欄位/);
+  assert.match(message, /手機/);
+  assert.match(message, /場次/);
+  assert.doesNotMatch(message, /聯絡人姓名/);
+
+  // 用注音輸入法打出來的全形英數字，以及 0912-345-678 這種寫法，都要能通過。
+  // 503 代表已經走完驗證、卡在測試環境沒有 webhook 密鑰。
+  response = await post({
+    contactName: "王小美",
+    phone: "0912-345-678",
+    participantNames: "小美",
+    sessionCode: "0925-0900",
+    quantity: 1,
+    consent: "同意",
+    participantIds: "Ａ１２３４５６７８９",
+  });
+  assert.equal(response.status, 503);
+});
